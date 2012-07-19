@@ -11,7 +11,7 @@ def generateDoors(doorList,startNumber,endNumber,minNumberofDoors,maxNumberofDoo
 
 #maze overall
 startNumber = 1
-endNumber = 10000
+endNumber = 100
 
 #per room
 minNumberofDoors = 2
@@ -29,16 +29,16 @@ while i <= endNumber:
 random.shuffle(roomNumberList)
 
 enterRoom = roomNumberList[0]
-print "enterRoom" + str(enterRoom)
+print 'enterRoom{0}'.format(str(enterRoom))
 exitRoom = roomNumberList[-1]
-print "exitRoom" + str(exitRoom)
+print 'exitRoom{0}'.format(str(exitRoom))
 
 roomNumberPath = roomNumberList[:]
 
 watchNumber = 1 #debugging
 
-for each in roomNumberList:
-    
+for roomInt in roomNumberList:
+    	roomStr = str(roomInt)
 	doorList = []
 	doorList = generateDoors(doorList,startNumber,endNumber,minNumberofDoors,maxNumberofDoors)
 
@@ -48,21 +48,24 @@ for each in roomNumberList:
 	except IndexError:
 		pass
     
-	room = "rooms/room" + str(each) + ".html"
-	file = open(room,"w+")
-	if each == enterRoom:
-		file.write("WELCOME TO THE MAZE<br />")
-		print "Enter " + str(each) + "."
-	if each == exitRoom:
-		file.write("YOU WIN!<br />")
-		print "Exit " + str(each) + "."
-        
+	room = 'rooms/room{0}.html'.format(roomStr)
+	file = open(room,'w+')
+	roomMessage = '<div id="roomNumber">Room {0}</div><br />'.format(roomStr)
+	file.write(roomMessage)
+
+	if roomInt == enterRoom:
+		file.write('<div id="message">WELCOME TO THE MAZE</div><br />')
+		print 'Enter {0}.'.format(roomStr)
+	elif roomInt == exitRoom:
+		file.write('<div id="message">YOU WIN!</div><br />')
+		print 'Exit {0}.'.format(roomStr)
+
 	random.shuffle(doorList)
         
 	for door in doorList:
-		aHrefElement = '<a href="room' + str(door) + '.html">A door leads out of this room.</a>'
+		aHrefElement = '<a href="room{0}.html">A door leads out of this room.</a>'.format(str(door))
 		file.write(aHrefElement)
-		file.write("</br>")
+		file.write('</br>')
 	file.close()
 
 	watchTest = watchNumber/1000.0 #debugging
